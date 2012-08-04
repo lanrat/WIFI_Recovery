@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="wpa_files">
+        <item>/data/misc/wifi/wpa_supplicant.conf</item>
+        <item>/data/misc/wifi/wpa.conf</item>
+        <item>/data/wifi/bcm_supp.conf</item>
+    </array>
+
+</resources>

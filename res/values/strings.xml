@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WIFI Recovery</string>
+    <string name="root_error">Root access could not be obtained :(</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_backup">Backup/Restore</string>
+    <string name="menu_about">About</string>
+    <string name="menu_wifi_settings">Open Wifi Settings</string>
+    <string name="button_share">Send</string>
+    <string name="button_dismiss">Dismiss</string>
+    <string name="backup_error">There was a problem backing up</string>
+    <string name="restore_error">There was a problem restoring</string>
+    <string name="about_text">
+		This application displays the wireless networks and keys which your phone stores
+		in plain text in a file often called wpa_supplicant.conf. This application provides you with 
+		the ability to view and share your wireless configurations. Additionally you can backup and restore
+        your wpa_supplicant.conf file to/from your SD card. The wpa_supplicant.conf file should not be
+        modified by hand. If for some reason your wireless configuration gets corrupted, use the Reset fucntion.
+        \n
+        \nCreated by Ian Foster
+        \n<a>http://lanrat.com</a>       
+    </string>
+    <string name="backup_text">
+		Click to backup your WIFI Configuration to your SD card
+		\n(copies wpa_supplicant.conf to the root of your SD card)
+    </string>
+    <string name="restore_text">
+		\nClick to Restore your backup from your SD card
+		\nWarning: only restore unmodified backups made by this phone!
+    </string>
+    <string name="reset_text">
+		\nIn case a restore failed, reset your wireless configuration.
+		\n(Resets wpa_supplicant.conf to its default values)
+    </string>
+    <string name="back_button">Back</string>
+    <string name="wifi_off">WIFI Disabled</string>
+    <string name="wifi_on">Connected to:</string>
+    <string name="wifi_disconnected">Not Connected to a network</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="reset_title">Confirm</string>
+    <string name="reset_message">Are you sure you want to Reset?</string>
+    <string name="reset_button">Reset Wifi Configuration</string>
+    <string name="reset_done">Wifi Configuration Reset</string>
+    <string name="reset_error">Error Resetting Wifi</string>
+    <string name="find_error">Error Finding WiFi configuration</string>
+    <string name="backup_button">Backup Now!</string>
+    <string name="sd_error">External Storage Error</string>
+    <string name="backup_done">Backup To External Storage Complete!</string>
+    <string name="restore_done">Restore From External Storage Complete!</string>
+    <string name="restore_button">Restore From Backup!</string>
+    <string name="backup_file_name">wifi_backup.conf</string>
+    <string name="parse_error">Malformed or Empty backup file!</string>
+    <string name="no_networks">No Networks Found!</string>
+    <string name="no_backup_file">Error: Could not find wpa_supplicant.conf on SD card root!</string>
+	<string name="icon_desc">Lock Icon</string>
+	<string name="about_version">Version: </string>
+</resources>
