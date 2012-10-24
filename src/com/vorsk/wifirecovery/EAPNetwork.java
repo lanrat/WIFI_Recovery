@@ -6,17 +6,19 @@ public class EAPNetwork extends Network{
 	//public static final String key_mgmt = "WPA-EAP IEEE8021X";
 	public static final String key_mgmt = "WPA-EAP";
 	
+	public static final byte UNKNOWN = 0;
+	
 	//EAP Methods
-	public static final byte PEAP = 0;
-	public static final byte TLS = 1;
-	public static final byte TTLS = 2;
+	public static final byte PEAP = 1;
+	public static final byte TLS = 2;
+	public static final byte TTLS = 3;
 	
 	//Phase 2
-	public static final byte NONE = 0;
-	public static final byte PAP = 1;
-	public static final byte MSCHAP = 2;
-	public static final byte MSCHAPV2 = 3;
-	public static final byte GTC = 4;
+	public static final byte NONE = 1;
+	public static final byte PAP = 2;
+	public static final byte MSCHAP = 3;
+	public static final byte MSCHAPV2 = 4;
+	public static final byte GTC = 5;
 	
 	//strings
 	private static final String[] EAP_names = {
@@ -53,6 +55,9 @@ public class EAPNetwork extends Network{
 	
 	//given the string from the config file, determines the apropriate eap method
 	public static byte findEAP(String eap){
+		if (eap == null){
+			return UNKNOWN;
+		}
 		if (eap.equals("PEAP")){
 			return PEAP;
 		}else if (eap.equals("TLS")){
@@ -60,7 +65,7 @@ public class EAPNetwork extends Network{
 		}else if (eap.equals("TTLS")){
 			return TTLS;
 		}
-		return (Byte) null;
+		return UNKNOWN;
 	}
 	
 	
@@ -138,6 +143,4 @@ public class EAPNetwork extends Network{
 		return R.drawable.eap;
 	}
 
-	
-	
 }

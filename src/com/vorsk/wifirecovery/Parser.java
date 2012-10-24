@@ -128,7 +128,12 @@ public class Parser{
 			
 		}else if (type.contains(EAPNetwork.key_mgmt)){ //eap network
 			//create eap network, the long complicated one.....
-			network = new EAPNetwork(ssid, EAPNetwork.findEAP(networkData.get("eap")));
+			byte eap = EAPNetwork.findEAP(networkData.get("eap"));
+			if (eap == EAPNetwork.UNKNOWN){
+				if (DEBUG) Log.d(TAG,"unknown eap network type");
+				return;
+			}
+			network = new EAPNetwork(ssid, eap);
 			if (networkData.containsKey("phase2")){
 				((EAPNetwork)network).setPhase2(EAPNetwork.findPhase2(networkData.get("phase2").replaceAll("\"", "")));
 			}
