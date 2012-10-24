@@ -19,7 +19,7 @@ public class About extends Activity implements OnClickListener {
 		View aboutBackbutton = findViewById(R.id.about_back_button);
 		aboutBackbutton.setOnClickListener(this);
 		
-		//set the about verson
+		//set the about version
 		TextView version = (TextView) findViewById(R.id.about_version);
 		try {
 			version.append(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);

@@ -29,7 +29,7 @@ public abstract class Network implements Comparable<Network>{
 		SSID = sSID;
 	}
 	
-	//return the english name of the security type
+	//return the English name of the security type
 	public String getSecurityName(){
 		return names[security_type];
 	}

@@ -89,7 +89,7 @@ public class WIFIRecoveryActivity extends ListActivity {
 		}
     }
     
-    //update the network list if the user have changed somethign in the settings
+    //update the network list if the user have changed something in the settings
     @Override
     public void onResume(){
     	super.onResume();

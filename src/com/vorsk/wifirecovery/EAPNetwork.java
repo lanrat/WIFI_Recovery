@@ -50,10 +50,10 @@ public class EAPNetwork extends Network{
 	}
 	
 	public String getPhase2Name(){
-		return EAP_names[phase2_auth+3]; //add 3 for concationated offset
+		return EAP_names[phase2_auth+3]; //add 3 for concatenated offset
 	}
 	
-	//given the string from the config file, determines the apropriate eap method
+	//given the string from the config file, determines the appropriate eap method
 	public static byte findEAP(String eap){
 		if (eap == null){
 			return UNKNOWN;
