@@ -76,7 +76,14 @@ public class WIFIRecoveryActivity extends ListActivity {
 		WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE); //wtf?
 		if (wifi.isWifiEnabled())
 		{
-			String ssid = wifi.getConnectionInfo().getSSID();
+			String ssid = null;
+			try{
+				ssid = wifi.getConnectionInfo().getSSID();
+			}catch (java.lang.SecurityException e) {
+				//we don't have permissions to get the wifi state
+				return;
+			}
+
 			if (ssid== null)
 			{
 				ssid = getString(R.string.wifi_disconnected);
