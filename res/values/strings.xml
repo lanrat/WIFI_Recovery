@@ -15,7 +15,7 @@
 		in plain text in a file often called wpa_supplicant.conf. This application provides you with 
 		the ability to view and share your wireless configurations. Additionally you can backup and restore
         your wpa_supplicant.conf file to/from your SD card. The wpa_supplicant.conf file should not be
-        modified by hand. If for some reason your wireless configuration gets corrupted, use the Reset fucntion.
+        modified by hand. If for some reason your wireless configuration gets corrupted, use the Reset function.
         \n
         \nCreated by Ian Foster
         \n<a>http://lanrat.com</a>       
