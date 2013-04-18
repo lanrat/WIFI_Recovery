@@ -8,27 +8,83 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 //for root
-import com.stericson.RootTools.*;
+import com.stericson.RootTools.RootTools;
 //for logging
+//import android.content.Context;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.util.Log;
 //import android.widget.Toast;
+import android.widget.Toast;
 
-public class Parser{
+public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	private static final String TAG = "WIFI_Recovery Parser";
 	private static final boolean DEBUG = false;
 	
-	private ArrayList<Network> networks = new ArrayList<Network>();
-	private List<String> file;
-	private Network[] networksArray;
+	private ArrayList<Network> networksListRM = new ArrayList<Network>(); //TODO remove this variable
+	private List<String> file; //TODO remove the need for this
+	private static Network[] networks;
+	private ListActivity myActivity;
+	ProgressDialog dialog;
 	
 	//ctor
-	public Parser(String file_name){
-		if (DEBUG) Log.d(TAG,"reading file");
-		this.readFile(file_name);
-		if (DEBUG) Log.d(TAG,"done reading file, building network");
-		this.buildNetworks();
-		if (DEBUG) Log.d(TAG,"done building networks");
+	public Parser(ListActivity activity){
+		this.myActivity = activity;
+		//if (DEBUG) Log.d(TAG,"reading file");
+		//this.readFile(file_name);
+		//if (DEBUG) Log.d(TAG,"done reading file, building network");
+		//this.buildNetworks();
+
 	}
+	
+	@Override
+	protected void onPreExecute() {
+		dialog = new ProgressDialog(this.myActivity);
+		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		dialog.setMessage(this.myActivity.getString(R.string.loading));
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.show();
+	}
+	
+	@Override
+	protected NetworkArrayAdapter doInBackground(Void... args) {
+		String file_name = getConfigFile();
+		if (file_name == null)
+		{
+			return null;
+		}
+		this.readFile(file_name);
+		this.buildNetworks();
+		if (DEBUG) Log.d(TAG,"done building "+networksListRM.size()+" networks");
+		
+		Collections.sort(networksListRM);
+		networks = networksListRM.toArray(new Network[networksListRM.size()]);
+		
+		if (DEBUG) Log.d(TAG, "building adapter");
+
+		//for refreshes this may need to be moved into postExecute
+		return new NetworkArrayAdapter(this.myActivity,networks);
+	}
+	
+	@Override
+	protected void onPostExecute(NetworkArrayAdapter result) {
+		//close loading message
+		dialog.dismiss();
+		
+		
+		if (result == null){
+			Toast.makeText(myActivity, R.string.find_error, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		//update the list of networks
+		if (DEBUG) Log.d(TAG, "setting adapter");
+		this.myActivity.setListAdapter(result);
+		
+	}
+	
 	
 	private void buildNetworks(){
 		//if we do not have a file
@@ -156,7 +212,7 @@ public class Parser{
 		}
 		//Log.d(TAG,"Ready to add network");
 		if (network != null){
-			networks.add(network);
+			networksListRM.add(network);
 		}else{
 			//Log.e(TAG, "Unknown Network Type");
 		}
@@ -165,6 +221,26 @@ public class Parser{
 		
 	}
 	
+	
+	private String getConfigFile() {
+		if (DEBUG) Log.d(TAG, "looking for config file");
+		String[] files = this.myActivity.getResources().getStringArray(R.array.wpa_files);
+
+		for (int i = 0; i < files.length; i++) {
+			if (RootTools.exists(files[i])) {
+				if (DEBUG)
+					Log.d(TAG, "found: " + files[i]);
+				return files[i];
+			}
+		}
+
+		if (DEBUG)
+			Log.d(TAG, "Could not find any config file");
+		return null;
+	}
+	
+	
+	//TODO REDO
 	private void readFile(String file_name){
 		//check to make sure the file exists
 		//int permissions = RootTools.getFilePermissions(file_name);
@@ -181,27 +257,25 @@ public class Parser{
 		}
 	}
 
-	public Network[] getSortedNetworks() {
+	public static Network[] getSortedNetworks() {
 		//Log.d(TAG,"converting...	");
-		if (networksArray == null){
+		/*if (networksArray == null){
 			Collections.sort(networks);
 			networksArray = networks.toArray(new Network[networks.size()]);
 			//Arrays.sort(networksArray);
-			return networksArray;
-		}
-		return networksArray;
+		}*/
+		return networks;
 	}
 	
-	public String[] getSSISs(){
-		String[] SSIDs = new String[networks.size()];
+	//TODO Compute once
+	public static String[] getSSIDs(){
+		String[] SSIDs = new String[networks.length];
 		
-		for (int i = 0; i < networks.size(); i++){
-			SSIDs[i] = networks.get(i).getSSID();
+		for (int i = 0; i < networks.length; i++){
+			SSIDs[i] = networks[i].getSSID();
 		}
 		return SSIDs;
 		
 	}
-
-
 
 }

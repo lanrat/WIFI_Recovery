@@ -88,11 +88,11 @@ public class Backup extends Activity implements OnClickListener {
 
 			if (new File(location).isFile()){
 				//do a test parse!
-				if (new Parser(location).getSSISs().length <= 0){
+				/*if (new Parser(location).getSSIDs().length <= 0){  // TODO update
 					if (DEBUG) Log.d(TAG,"malformed backup file");
 					Toast.makeText(getApplicationContext(), R.string.parse_error, Toast.LENGTH_SHORT).show();
 					return;
-				}
+				}*/ 
 				
 				WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE); //wtf?
 				//get wifi state, if off turn on
