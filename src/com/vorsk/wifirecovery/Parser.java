@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	private static final String TAG = "WIFI_Recovery Parser";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	
 	private ArrayList<Network> networksListRM = new ArrayList<Network>(); //TODO remove this variable
 	private List<String> file; //TODO remove the need for this
@@ -31,11 +31,6 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	//ctor
 	public Parser(ListActivity activity){
 		this.myActivity = activity;
-		//if (DEBUG) Log.d(TAG,"reading file");
-		//this.readFile(file_name);
-		//if (DEBUG) Log.d(TAG,"done reading file, building network");
-		//this.buildNetworks();
-
 	}
 	
 	@Override
@@ -50,21 +45,25 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	
 	@Override
 	protected NetworkArrayAdapter doInBackground(Void... args) {
-		String file_name = getConfigFile();
-		if (file_name == null)
+		if (networks == null)
 		{
-			return null;
+			String file_name = getConfigFile();
+			if (file_name == null)
+			{
+				return null;
+			}
+			if (!this.readFile(file_name))
+			{
+				return null;
+			}
+			this.buildNetworks();
+			if (DEBUG) Log.d(TAG,"done building "+networksListRM.size()+" networks");
+			
+			Collections.sort(networksListRM);
+			networks = networksListRM.toArray(new Network[networksListRM.size()]);
 		}
-		this.readFile(file_name);
-		this.buildNetworks();
-		if (DEBUG) Log.d(TAG,"done building "+networksListRM.size()+" networks");
-		
-		Collections.sort(networksListRM);
-		networks = networksListRM.toArray(new Network[networksListRM.size()]);
 		
 		if (DEBUG) Log.d(TAG, "building adapter");
-
-		//for refreshes this may need to be moved into postExecute
 		return new NetworkArrayAdapter(this.myActivity,networks);
 	}
 	
@@ -72,7 +71,6 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	protected void onPostExecute(NetworkArrayAdapter result) {
 		//close loading message
 		dialog.dismiss();
-		
 		
 		if (result == null){
 			Toast.makeText(myActivity, R.string.find_error, Toast.LENGTH_SHORT).show();
@@ -240,8 +238,9 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	}
 	
 	
-	//TODO REDO
-	private void readFile(String file_name){
+	//TODO REDO with temp files
+	//THIS causes errors reading the file on startup sometimes
+	private boolean readFile(String file_name){
 		//check to make sure the file exists
 		//int permissions = RootTools.getFilePermissions(file_name);
 		//Log.d(TAG,"Permissions: "+permissions);
@@ -250,24 +249,19 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		try {
 			this.file = RootTools.sendShell("cat " + file_name,WIFIRecoveryActivity.CMD_TIMEOUT);
 			//this.file = RootTools.sendShell("cat " + file_name);
+			return true;
 		} catch (Exception e) {
 			if (DEBUG) Log.d(TAG,"cant access file: "+ file_name);
+			return false;
 			//e.printStackTrace();
 			//Toast.makeText(getApplicationContext(), "Hi there", Toast.LENGTH_SHORT).show();
 		}
 	}
 
-	public static Network[] getSortedNetworks() {
-		//Log.d(TAG,"converting...	");
-		/*if (networksArray == null){
-			Collections.sort(networks);
-			networksArray = networks.toArray(new Network[networks.size()]);
-			//Arrays.sort(networksArray);
-		}*/
+	public static Network[] getNetworks() {
 		return networks;
 	}
 	
-	//TODO Compute once
 	public static String[] getSSIDs(){
 		String[] SSIDs = new String[networks.length];
 		

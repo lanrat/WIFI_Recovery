@@ -44,41 +44,9 @@ public class WIFIRecoveryActivity extends ListActivity {
 
 		this.checkRoot();
 
-		// make the empty list display
-		// getListView().setEmptyView(findViewById(R.id.empty_list));
-
-		//if (networks == null) {
-			// Object data = getLastNonConfigurationInstance(); //Deprecated,
-			// using anyway
-			// if (data == null){
-			//if (DEBUG)
-			//	Log.d(TAG, "getting networks");
-			// check for root
-
-			// start up the parser
-			Parser parser = new Parser(this);
-			// Retrieve the networks
-			//networks = parser.getSortedNetworks();
-			// }else{
-			// networks = (Network[]) data;
-			// }
-
-			//if (DEBUG)
-			//	Log.d(TAG, "building adapter");
-
-			//NetworkArrayAdapter adapter = new NetworkArrayAdapter(this,
-			//		networks);
-
-			//if (DEBUG)
-			//	Log.d(TAG, "setting adapter");
-			//setListAdapter(adapter);
-
-			// this.updateTitle();
-			// new UpdateStatus().start();
-
-		//}
-			
-			parser.execute();
+		// start up the parser
+		Parser parser = new Parser(this);
+		parser.execute();
 	}
 
 	/*
@@ -173,7 +141,6 @@ public class WIFIRecoveryActivity extends ListActivity {
 
 	// TODO REDO
 	private void refresh() {
-		// this.networks = null;
 		this.onCreate(null);
 	}
 
