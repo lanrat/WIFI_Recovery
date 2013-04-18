@@ -1,5 +1,7 @@
 package com.vorsk.wifirecovery;
 
+import java.util.Locale;
+
 
 public abstract class Network implements Comparable<Network>{
 	
@@ -47,7 +49,8 @@ public abstract class Network implements Comparable<Network>{
 	//so that we can sort by SSID
     //@Override //this line should not be commented out, but eclipse gets angry?
     public int compareTo(Network other){
-    	return this.getSSID().toLowerCase().compareTo(other.getSSID().toLowerCase());
+    	return this.getSSID().toLowerCase(Locale.getDefault())
+    			.compareTo(other.getSSID().toLowerCase(Locale.getDefault()));
     }
     
     public String toString(){

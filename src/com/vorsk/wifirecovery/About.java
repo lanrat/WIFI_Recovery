@@ -15,6 +15,7 @@ public class About extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
 		
+		
 		//set the button listener!
 		View aboutBackbutton = findViewById(R.id.about_back_button);
 		aboutBackbutton.setOnClickListener(this);
@@ -32,7 +33,7 @@ public class About extends Activity implements OnClickListener {
 	public void onClick(View v){
 		switch (v.getId()) {
 		case R.id.about_back_button:
-			finish(); //go back to the main activity1
+			finish(); //go back to the main activity
 			break;
 		default:
 			break;

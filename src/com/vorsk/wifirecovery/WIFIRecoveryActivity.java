@@ -27,7 +27,7 @@ import android.view.View;
 //extend ListActivity in place of activity
 public class WIFIRecoveryActivity extends ListActivity {
 	private static final String TAG = "WIFI_Recovery Activity";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	
 	private Network[] networks;
 	private static final int REFRESH = 5; //why not?
@@ -45,9 +45,10 @@ public class WIFIRecoveryActivity extends ListActivity {
         //make the empty list display
         //getListView().setEmptyView(findViewById(R.id.empty_list));
         
-
-        Object data = getLastNonConfigurationInstance(); //Deprecated, using anyway
-        if (data == null){
+        if (networks == null)
+        {
+        //Object data = getLastNonConfigurationInstance(); //Deprecated, using anyway
+        //if (data == null){
         	if (DEBUG) Log.d(TAG,"getting networks");
 	    	//check for root
 	    	this.checkRoot();
@@ -56,9 +57,9 @@ public class WIFIRecoveryActivity extends ListActivity {
 	    	Parser parser = new Parser(getConfigFile());
 	    	//Retrieve the networks
 	    	networks = parser.getSortedNetworks();
-        }else{
-        	networks = (Network[]) data;
-        }
+        //}else{
+        //	networks = (Network[]) data;
+        //}
         
         if (DEBUG) Log.d(TAG,"building adapter");
 
@@ -69,6 +70,8 @@ public class WIFIRecoveryActivity extends ListActivity {
         
         this.updateTitle();
         //new UpdateStatus().start();
+        
+        }
     }
     
     public void updateTitle(){

@@ -43,7 +43,7 @@ public class Backup extends Activity implements OnClickListener {
 	public void onClick(View v){
 		switch (v.getId()) {
 		case R.id.backup_back_button:
-			finish(); //go back to the main activity1
+			finish(); //go back to the main activity
 			break;
 		case R.id.backup_button:
 			this.backupCopy();
@@ -59,6 +59,7 @@ public class Backup extends Activity implements OnClickListener {
 		}
 	}
 	
+	//TODO move to thread
 	private void backupCopy(){
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state) ){
@@ -79,6 +80,7 @@ public class Backup extends Activity implements OnClickListener {
 		}
 	}
 	
+    //TODO move to thread
 	private void restoreCopy(){
 		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
 			String location =  Environment.getExternalStorageDirectory().getPath() +"/"+ getString(R.string.backup_file_name);
@@ -175,6 +177,7 @@ public class Backup extends Activity implements OnClickListener {
         .show();
     }
     
+    //TODO move to thread
     private void reset(){
 		WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE); //wtf?
 		//get wifi state, if off turn on
@@ -206,6 +209,7 @@ public class Backup extends Activity implements OnClickListener {
 		quitAndRefresh();
     }
     
+    //TODO move to thread
     private void quitAndRefresh(){
     	Intent resultIntent = new Intent();
     	resultIntent.putExtra("refresh", true);
