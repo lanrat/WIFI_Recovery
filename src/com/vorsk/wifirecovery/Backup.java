@@ -2,9 +2,12 @@ package com.vorsk.wifirecovery;
 
 import java.io.File;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.stericson.RootTools.RootTools;
 import com.vorsk.wifirecovery.R;
-import android.app.Activity;
+//import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,14 +17,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-public class Backup extends Activity implements OnClickListener {
+public class Backup extends SherlockActivity implements OnClickListener {
 	private static final String TAG = "WIFI_Recovery Backup";
 	private static final boolean DEBUG = false;
 	
@@ -30,9 +30,9 @@ public class Backup extends Activity implements OnClickListener {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.backup);
+		setTitle(R.string.backup_title);
 		
 		//set the button listeners! condensed version
-		findViewById(R.id.backup_back_button).setOnClickListener(this);
 		findViewById(R.id.backup_button).setOnClickListener(this);
 		findViewById(R.id.restore_button).setOnClickListener(this);
 		findViewById(R.id.reset_button).setOnClickListener(this);
@@ -42,9 +42,6 @@ public class Backup extends Activity implements OnClickListener {
 	//hook the button up!
 	public void onClick(View v){
 		switch (v.getId()) {
-		case R.id.backup_back_button:
-			finish(); //go back to the main activity
-			break;
 		case R.id.backup_button:
 			this.backupCopy();
 			break;
@@ -141,20 +138,22 @@ public class Backup extends Activity implements OnClickListener {
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.backup_menu, menu);
+		getSupportMenuInflater().inflate(R.menu.backup_action, menu);
 		return true;
 	}
     //when a user selects a menu item
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
     	switch (item.getItemId()) {
-		case R.id.about:
+		case R.id.menu_about:
 			//about box here
 			startActivity(new Intent(this, About.class));
 			return true;
-		case R.id.wifi_settings:
+		case R.id.menu_settings:
 			startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+			return true;
+		case R.id.menu_home:
+			quitAndRefresh();
 			return true;
 		//possibly add more menu items here
 		default:
@@ -210,10 +209,11 @@ public class Backup extends Activity implements OnClickListener {
     }
     
     //TODO move to thread
+    //TODO only refresh if we try to change something
     private void quitAndRefresh(){
     	Intent resultIntent = new Intent();
     	resultIntent.putExtra("refresh", true);
-    	setResult(Activity.RESULT_OK, resultIntent);
+    	setResult(SherlockActivity.RESULT_OK, resultIntent);
     	finish(); //this line may be annoying
     }
 	

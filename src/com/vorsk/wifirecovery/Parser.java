@@ -11,8 +11,10 @@ import java.util.List;
 import com.stericson.RootTools.RootTools;
 //for logging
 //import android.content.Context;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 //import android.widget.Toast;
@@ -27,10 +29,14 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	private static Network[] networks;
 	private ListActivity myActivity;
 	ProgressDialog dialog;
+	private int errorCode;
+	private static int ERROR_NO_ROOT = 1;
+	private static int ERROR_NO_FILE = 2;
 	
 	//ctor
 	public Parser(ListActivity activity){
 		this.myActivity = activity;
+		this.errorCode = 0;
 	}
 	
 	@Override
@@ -47,13 +53,19 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	protected NetworkArrayAdapter doInBackground(Void... args) {
 		if (networks == null)
 		{
+			if (!this.checkRoot()){
+				this.errorCode = ERROR_NO_ROOT;
+				return null;
+			}
 			String file_name = getConfigFile();
 			if (file_name == null)
 			{
+				this.errorCode = ERROR_NO_FILE;
 				return null;
 			}
 			if (!this.readFile(file_name))
 			{
+				this.errorCode = ERROR_NO_FILE;
 				return null;
 			}
 			this.buildNetworks();
@@ -73,8 +85,22 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		dialog.dismiss();
 		
 		if (result == null){
-			Toast.makeText(myActivity, R.string.find_error, Toast.LENGTH_SHORT).show();
-			return;
+			if (this.errorCode == ERROR_NO_FILE){
+				Toast.makeText(myActivity, R.string.find_error, Toast.LENGTH_SHORT).show();
+				return;
+			}else if (this.errorCode == ERROR_NO_ROOT)
+			{
+				// display dialog
+				AlertDialog.Builder builder = new AlertDialog.Builder(this.myActivity);
+				builder.setMessage(this.myActivity.getString(R.string.root_error)).setCancelable(false)
+						.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								myActivity.finish();
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
+			}
 		}
 		
 		//update the list of networks
@@ -83,6 +109,19 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		
 	}
 	
+	
+	private boolean checkRoot() {
+		if (DEBUG) Log.d(TAG, "testing for root");
+		if (RootTools.isAccessGiven()) {
+			if (DEBUG) Log.d(TAG, "We have root!");
+			// the app has been granted root access
+			return true;
+		}
+
+		if (DEBUG) Log.d(TAG, "Root Failure");
+
+		return false;
+	}
 	
 	private void buildNetworks(){
 		//if we do not have a file

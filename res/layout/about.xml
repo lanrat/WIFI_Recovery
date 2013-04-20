@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
 
 <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:layout_above="@+id/about_button_bar"
     android:layout_alignParentTop="true"
     android:padding="10dip">
 
@@ -35,22 +30,3 @@ android:layout_height="wrap_content"
 android:text="@string/about_text" />
 </LinearLayout>
 </ScrollView>
-
-<LinearLayout
-android:id="@+id/about_button_bar"
-style="@android:style/ButtonBar"
-android:layout_width="fill_parent"
-android:layout_height="wrap_content"
-android:layout_alignParentBottom="true"
-android:orientation="horizontal">
-
-    <Button
-        android:id="@+id/about_back_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="30dip"
-        android:layout_marginRight="30dip"
-        android:text="@string/back_button" />
-</LinearLayout>
-</RelativeLayout>

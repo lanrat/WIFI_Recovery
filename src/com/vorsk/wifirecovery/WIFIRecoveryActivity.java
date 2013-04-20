@@ -1,30 +1,26 @@
 package com.vorsk.wifirecovery;
 
-import com.stericson.RootTools.RootTools;
-import android.net.wifi.WifiManager;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import android.os.Bundle;
 import android.provider.Settings;
 
 //for logging
 import android.util.Log;
 //list stuff
-import android.app.Activity;
+//import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.content.Context;
+//import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.widget.ListView;
-import android.widget.Toast;
-//menus
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+
 //do I need this?
 import android.view.View;
 
 //extend ListActivity in place of activity
-public class WIFIRecoveryActivity extends ListActivity {
+public class WIFIRecoveryActivity extends SherlockListActivity {
 	private static final String TAG = "WIFI_Recovery Activity";
 	private static final boolean DEBUG = true;
 
@@ -41,25 +37,16 @@ public class WIFIRecoveryActivity extends ListActivity {
 			Log.d(TAG, "onCreate");
 		// use my custom list with buttons and empty list support
 		setContentView(R.layout.list);
+		
+		setTitle(R.string.home_title);
 
-		this.checkRoot();
 
 		// start up the parser
 		Parser parser = new Parser(this);
 		parser.execute();
 	}
 
-	/*
-	 * public void updateTitle(){ //title stuff WifiManager wifi =
-	 * (WifiManager)getSystemService(Context.WIFI_SERVICE); //wtf? if
-	 * (wifi.isWifiEnabled()) { String ssid = null; try{ ssid =
-	 * wifi.getConnectionInfo().getSSID(); }catch (java.lang.SecurityException
-	 * e) { //we don't have permissions to get the wifi state return; }
-	 * 
-	 * if (ssid== null) { ssid = getString(R.string.wifi_disconnected); }else{
-	 * ssid = getString(R.string.wifi_on) +" "+ ssid; } setTitle(ssid); }else{
-	 * setTitle(R.string.wifi_off); } }
-	 */
+	
 
 	// this is deprecated, but I'm using it anyways
 	/*
@@ -112,49 +99,20 @@ public class WIFIRecoveryActivity extends ListActivity {
 		return alert;
 	}
 
-	private boolean checkRoot() {
-		if (DEBUG)
-			Log.d(TAG, "testing for root");
-		if (RootTools.isAccessGiven()) {
-			if (DEBUG)
-				Log.d(TAG, "We have root!");
-			// the app has been granted root access
-			return true;
-		}
-
-		if (DEBUG)
-			Log.d(TAG, "Root Failure");
-
-		// display dialog
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(getString(R.string.root_error)).setCancelable(false)
-				.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						finish();
-					}
-				});
-		AlertDialog alert = builder.create();
-		alert.show();
-
-		return false;
-	}
 
 	// TODO REDO
 	private void refresh() {
 		this.onCreate(null);
 	}
 
-	public void launchBackupActivity(View v) {
-		startActivityForResult(new Intent(this, Backup.class),
-				WIFIRecoveryActivity.REFRESH);
-	}
-
 	// make the menu work
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
+		
+		//actionbar menu
+		getSupportMenuInflater().inflate(R.menu.home_action, menu);
+		
 		return true;
 	}
 
@@ -162,15 +120,19 @@ public class WIFIRecoveryActivity extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.refresh:
+		case R.id.menu_backup:
+			startActivityForResult(new Intent(this, Backup.class),
+					WIFIRecoveryActivity.REFRESH);
+			return true;
+		case R.id.menu_refresh:
 			// refresh the networks (the easy way)
 			this.refresh();
 			return true;
-		case R.id.about:
+		case R.id.menu_about:
 			// about box here
 			startActivity(new Intent(this, About.class));
 			return true;
-		case R.id.wifi_settings:
+		case R.id.menu_settings:
 			startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 			return true;
 			// possibly add more menu items here
@@ -184,7 +146,7 @@ public class WIFIRecoveryActivity extends ListActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		// networks changed, refresh
 		if (requestCode == WIFIRecoveryActivity.REFRESH
-				&& resultCode == Activity.RESULT_OK) {
+				&& resultCode == SherlockListActivity.RESULT_OK) {
 			if (DEBUG)
 				Log.d(TAG, "got back the activity");
 			if (data.getBooleanExtra("refresh", false)) {
