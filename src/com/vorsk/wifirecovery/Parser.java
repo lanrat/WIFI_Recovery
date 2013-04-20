@@ -30,13 +30,28 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	private ListActivity myActivity;
 	ProgressDialog dialog;
 	private int errorCode;
-	private static int ERROR_NO_ROOT = 1;
-	private static int ERROR_NO_FILE = 2;
+	private static final int ERROR_NO_ROOT = 1;
+	private static final int ERROR_NO_FILE = 2;
 	
 	//ctor
-	public Parser(ListActivity activity){
+	private Parser(ListActivity activity){
 		this.myActivity = activity;
 		this.errorCode = 0;
+	}
+	
+	//factory method for parsing the file
+	public static void init(ListActivity activity)
+	{	
+		Parser p = new Parser(activity);
+		p.execute();
+	}
+	
+	
+	//like init but forces data refresh
+	public static void refresh(ListActivity activity)
+	{	
+		Parser.networks = null;
+		Parser.init(activity);
 	}
 	
 	@Override
@@ -297,11 +312,11 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		}
 	}
 
-	public static Network[] getNetworks() {
+	public Network[] getNetworks() {
 		return networks;
 	}
 	
-	public static String[] getSSIDs(){
+	public String[] getSSIDs(){
 		String[] SSIDs = new String[networks.length];
 		
 		for (int i = 0; i < networks.length; i++){

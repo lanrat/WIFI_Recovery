@@ -36,14 +36,13 @@ public class WIFIRecoveryActivity extends SherlockListActivity {
 		if (DEBUG)
 			Log.d(TAG, "onCreate");
 		// use my custom list with buttons and empty list support
-		setContentView(R.layout.list);
+		setContentView(R.layout.network_list);
 		
 		setTitle(R.string.home_title);
 
 
 		// start up the parser
-		Parser parser = new Parser(this);
-		parser.execute();
+		Parser.init(this);
 	}
 
 	
@@ -102,7 +101,8 @@ public class WIFIRecoveryActivity extends SherlockListActivity {
 
 	// TODO REDO
 	private void refresh() {
-		this.onCreate(null);
+		//this.onCreate(null);
+		Parser.refresh(this);
 	}
 
 	// make the menu work

@@ -16,7 +16,6 @@
 			android:layout_height="fill_parent"
 			android:layout_gravity="center"
 			android:gravity="center"
-			android:layout="@layout/empty" />
-
+			android:layout="@layout/empty_list" />
 
 </RelativeLayout>

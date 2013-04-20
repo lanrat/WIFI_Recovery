@@ -26,10 +26,12 @@ public class NetworkArrayAdapter extends ArrayAdapter<Network>{
 		View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
 		
 		TextView textView = (TextView) rowView.findViewById(R.id.name);
+		TextView securityText = (TextView) rowView.findViewById(R.id.security);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 		
 		textView.setText(values[position].getSSID()); //set the text
 		imageView.setImageResource(values[position].getIcon()); //set the image
+		securityText.setText(values[position].getSecurityName());
 
 		return rowView;
 	}
