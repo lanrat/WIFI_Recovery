@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-public class Backup extends SherlockActivity implements OnClickListener {
+public class BackupActivity extends SherlockActivity implements OnClickListener {
 	private static final String TAG = "WIFI_Recovery Backup";
 	private static final boolean DEBUG = false;
 	
@@ -64,7 +64,7 @@ public class Backup extends SherlockActivity implements OnClickListener {
 			try {
 				if (DEBUG) Log.d(TAG,"copying to: "+location);
 				//RootTools.sendShell("cp " + WIFIRecoveryActivity.wpa_file + " " +location,WIFIRecoveryActivity.CMD_TIMEOUT);
-				RootTools.copyFile(WIFIRecoveryActivity.wpa_file, location, false, false);
+				RootTools.copyFile(HomeActivity.wpa_file, location, false, false);
 				Toast.makeText(getApplicationContext(), R.string.backup_done, Toast.LENGTH_SHORT).show();
 			} catch (Exception e) {
 				if (DEBUG) Log.d(TAG,"can't backup file");
@@ -106,9 +106,9 @@ public class Backup extends SherlockActivity implements OnClickListener {
 					
 					if (DEBUG) Log.d(TAG,"copying file from: "+location);
 					//RootTools.sendShell("cp " + location +" "+ WIFIRecoveryActivity.wpa_file,WIFIRecoveryActivity.CMD_TIMEOUT);
-					RootTools.copyFile(location, WIFIRecoveryActivity.wpa_file, true, false);
-					RootTools.sendShell("chown system:wifi "+ WIFIRecoveryActivity.wpa_file,WIFIRecoveryActivity.CMD_TIMEOUT);
-					RootTools.sendShell("chmod 0660 "+ WIFIRecoveryActivity.wpa_file,WIFIRecoveryActivity.CMD_TIMEOUT);
+					RootTools.copyFile(location, HomeActivity.wpa_file, true, false);
+					RootTools.sendShell("chown system:wifi "+ HomeActivity.wpa_file,HomeActivity.CMD_TIMEOUT);
+					RootTools.sendShell("chmod 0660 "+ HomeActivity.wpa_file,HomeActivity.CMD_TIMEOUT);
 
 					Toast.makeText(getApplicationContext(), R.string.restore_done, Toast.LENGTH_SHORT).show();
 				} catch (Exception e) {
@@ -147,7 +147,7 @@ public class Backup extends SherlockActivity implements OnClickListener {
     	switch (item.getItemId()) {
 		case R.id.menu_about:
 			//about box here
-			startActivity(new Intent(this, About.class));
+			HomeActivity.showAboutView(this);
 			return true;
 		case R.id.menu_settings:
 			startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
@@ -169,7 +169,7 @@ public class Backup extends SherlockActivity implements OnClickListener {
         .setMessage(R.string.reset_message)
         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Backup.this.reset();    
+                BackupActivity.this.reset();    
             }
         })
         .setNegativeButton(R.string.no, null)
@@ -189,8 +189,8 @@ public class Backup extends SherlockActivity implements OnClickListener {
 		}
 		
 		try {
-			if (DEBUG) Log.d(TAG,"deleting "+ WIFIRecoveryActivity.wpa_file);
-			RootTools.sendShell("rm "+ WIFIRecoveryActivity.wpa_file,WIFIRecoveryActivity.CMD_TIMEOUT);
+			if (DEBUG) Log.d(TAG,"deleting "+ HomeActivity.wpa_file);
+			RootTools.sendShell("rm "+ HomeActivity.wpa_file,HomeActivity.CMD_TIMEOUT);
 			//RootTools.sendShell("rm "+ WIFIRecoveryActivity.wpa_file);
 
 			Toast.makeText(getApplicationContext(), R.string.reset_done, Toast.LENGTH_SHORT).show();

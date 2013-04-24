@@ -1,4 +1,6 @@
-package com.vorsk.wifirecovery;
+package com.vorsk.wifirecovery.network;
+
+import com.vorsk.wifirecovery.R;
 
 
 public class EAPNetwork extends Network{

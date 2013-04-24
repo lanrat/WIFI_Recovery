@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:paddingLeft="6dip"
-            android:paddingTop="4dp"
+            android:paddingTop="5dp"
             android:text="@+id/label"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -43,6 +43,5 @@
         android:contentDescription="@string/icon_desc"
         android:src="@drawable/open" >
     </ImageView>
-    
-    
+
 </RelativeLayout>

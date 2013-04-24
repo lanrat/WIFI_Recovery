@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WIFI Recovery</string>
+    <string name="app_name">WiFi Key Recovery</string>
     <string name="root_error">This application requires root access but root could not be obtained.</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_backup">Backup/Restore</string>
@@ -55,5 +55,4 @@
 	<string name="loading">Loading Networks</string>
 	<string name="home_title">Saved Networks</string>
 	<string name="backup_title">Backup and Restore</string>
-	<string name="about_title">About</string>
 </resources>

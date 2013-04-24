@@ -1,5 +1,7 @@
 package com.vorsk.wifirecovery;
 
+import com.vorsk.wifirecovery.network.Network;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

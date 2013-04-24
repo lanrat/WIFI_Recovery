@@ -1,4 +1,4 @@
-package com.vorsk.wifirecovery;
+package com.vorsk.wifirecovery.network;
 
 import java.util.Locale;
 
@@ -18,7 +18,8 @@ public abstract class Network implements Comparable<Network>{
 	public static final byte WEP = 1;
 	public static final byte WPA = 2;
 	public static final byte EAP = 3;
-	private static final String[] names = {"Open",
+	private static final String[] names = {
+		"Open",
 		"WEP",
 		"WPA/WPA2 PSK",
 		"802.1x EAP"};

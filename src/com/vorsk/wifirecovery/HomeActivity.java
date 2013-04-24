@@ -3,24 +3,26 @@ package com.vorsk.wifirecovery;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.vorsk.wifirecovery.network.Network;
 import android.os.Bundle;
 import android.provider.Settings;
-
-//for logging
 import android.util.Log;
-//list stuff
-//import android.app.Activity;
+import android.app.Activity;
 import android.app.AlertDialog;
-//import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.widget.Button;
 import android.widget.ListView;
-
-//do I need this?
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 
 //extend ListActivity in place of activity
-public class WIFIRecoveryActivity extends SherlockListActivity {
+public class HomeActivity extends SherlockListActivity {
 	private static final String TAG = "WIFI_Recovery Activity";
 	private static final boolean DEBUG = true;
 
@@ -36,13 +38,13 @@ public class WIFIRecoveryActivity extends SherlockListActivity {
 		if (DEBUG)
 			Log.d(TAG, "onCreate");
 		// use my custom list with buttons and empty list support
-		setContentView(R.layout.network_list);
+		setContentView(R.layout.home_network_list);
 		
 		setTitle(R.string.home_title);
 
 
 		// start up the parser
-		Parser.init(this);
+		ParserTask.init(this);
 	}
 
 	
@@ -102,7 +104,7 @@ public class WIFIRecoveryActivity extends SherlockListActivity {
 	// TODO REDO
 	private void refresh() {
 		//this.onCreate(null);
-		Parser.refresh(this);
+		ParserTask.refresh(this);
 	}
 
 	// make the menu work
@@ -121,8 +123,8 @@ public class WIFIRecoveryActivity extends SherlockListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_backup:
-			startActivityForResult(new Intent(this, Backup.class),
-					WIFIRecoveryActivity.REFRESH);
+			startActivityForResult(new Intent(this, BackupActivity.class),
+					HomeActivity.REFRESH);
 			return true;
 		case R.id.menu_refresh:
 			// refresh the networks (the easy way)
@@ -130,7 +132,7 @@ public class WIFIRecoveryActivity extends SherlockListActivity {
 			return true;
 		case R.id.menu_about:
 			// about box here
-			startActivity(new Intent(this, About.class));
+			showAboutView(this);
 			return true;
 		case R.id.menu_settings:
 			startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
@@ -145,7 +147,7 @@ public class WIFIRecoveryActivity extends SherlockListActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		// networks changed, refresh
-		if (requestCode == WIFIRecoveryActivity.REFRESH
+		if (requestCode == HomeActivity.REFRESH
 				&& resultCode == SherlockListActivity.RESULT_OK) {
 			if (DEBUG)
 				Log.d(TAG, "got back the activity");
@@ -154,6 +156,38 @@ public class WIFIRecoveryActivity extends SherlockListActivity {
 					Log.d(TAG, "updating networks");
 				this.refresh();
 			}
+		}
+	}
+	
+	
+	public static void showAboutView(Activity act)
+	{
+		LayoutInflater inflater = (LayoutInflater) act.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.about, null);
+		
+		final PopupWindow pw = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		pw.setOutsideTouchable(true);
+		pw.setTouchable(true);
+		
+		Button ok = (Button) pw.getContentView().findViewById(R.id.about_close);
+	    ok.setOnClickListener(new View.OnClickListener()
+	    {
+	        @Override
+	        public void onClick(View v)
+	        {   
+	            pw.dismiss(); 
+	        }
+
+	    });
+		
+		pw.showAtLocation(act.findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
+		
+		TextView version = (TextView) pw.getContentView().findViewById(R.id.about_version); 
+		try {
+			version.append(act.getPackageManager().getPackageInfo(act.getPackageName(), 0).versionName);
+		} catch (NameNotFoundException e1) {
+
+			version.append("Unknown");
 		}
 	}
 

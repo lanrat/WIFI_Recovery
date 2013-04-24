@@ -1,32 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<!--?xml version="1.0" encoding="utf-8"?-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_element"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_alignParentTop="true"
-    android:padding="10dip">
+    android:background="#444444"
+    android:padding="10dp"
+    android:orientation="vertical">
+ 
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center_horizontal"
+          android:text="@string/menu_about"
+          android:textSize="@dimen/abs__action_bar_title_text_size"
+          android:textStyle="bold" />
+            
+      <TextView
+         android:id="@+id/about_version"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:gravity="center_horizontal"
+         android:paddingBottom="10dp"
+         android:text="@string/about_version" />
+      
+       <TextView
+         android:id="@+id/about_content"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:autoLink="web"
+         android:gravity="center_horizontal"
+         android:text="@string/about_text" />
+       
+       <Button
+           android:id="@+id/about_close"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center_horizontal"
+           android:text="@string/button_dismiss" />
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center_horizontal" >
-
-<TextView
-android:id="@+id/about_version"
-android:gravity="center_horizontal"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="@string/about_version"
-android:paddingBottom="10dp" />
-    
-<TextView
-android:id="@+id/about_content"
-android:gravity="center_horizontal"
-android:autoLink="web"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="@string/about_text" />
 </LinearLayout>
-</ScrollView>

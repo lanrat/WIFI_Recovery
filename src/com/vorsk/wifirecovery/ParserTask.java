@@ -9,6 +9,11 @@ import java.util.Iterator;
 import java.util.List;
 //for root
 import com.stericson.RootTools.RootTools;
+import com.vorsk.wifirecovery.network.EAPNetwork;
+import com.vorsk.wifirecovery.network.Network;
+import com.vorsk.wifirecovery.network.OpenNetwork;
+import com.vorsk.wifirecovery.network.WEPNetwork;
+import com.vorsk.wifirecovery.network.WPANetwork;
 //for logging
 //import android.content.Context;
 import android.app.AlertDialog;
@@ -20,7 +25,7 @@ import android.util.Log;
 //import android.widget.Toast;
 import android.widget.Toast;
 
-public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
+public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	private static final String TAG = "WIFI_Recovery Parser";
 	private static final boolean DEBUG = true;
 	
@@ -34,7 +39,7 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	private static final int ERROR_NO_FILE = 2;
 	
 	//ctor
-	private Parser(ListActivity activity){
+	private ParserTask(ListActivity activity){
 		this.myActivity = activity;
 		this.errorCode = 0;
 	}
@@ -42,7 +47,7 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	//factory method for parsing the file
 	public static void init(ListActivity activity)
 	{	
-		Parser p = new Parser(activity);
+		ParserTask p = new ParserTask(activity);
 		p.execute();
 	}
 	
@@ -50,8 +55,8 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	//like init but forces data refresh
 	public static void refresh(ListActivity activity)
 	{	
-		Parser.networks = null;
-		Parser.init(activity);
+		ParserTask.networks = null;
+		ParserTask.init(activity);
 	}
 	
 	@Override
@@ -301,7 +306,7 @@ public class Parser extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		
 		//read the contends of the file into a variable
 		try {
-			this.file = RootTools.sendShell("cat " + file_name,WIFIRecoveryActivity.CMD_TIMEOUT);
+			this.file = RootTools.sendShell("cat " + file_name,HomeActivity.CMD_TIMEOUT);
 			//this.file = RootTools.sendShell("cat " + file_name);
 			return true;
 		} catch (Exception e) {
