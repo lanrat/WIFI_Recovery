@@ -38,6 +38,8 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
 		findViewById(R.id.reset_button).setOnClickListener(this);
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 	}
 	
@@ -146,7 +148,6 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
     //when a user selects a menu item
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-    	Log.v("test", "menu selected, id: "+item.getItemId());
     	switch (item.getItemId()) {
 		case R.id.menu_about:
 			//about box here
@@ -157,7 +158,8 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
 			return true;
 		case android.R.id.home:
 			//TODO temp
-			quitAndRefresh();
+			//quitAndRefresh();
+			finish();
 			//should save a var and call finish();
 			return true;
 		//possibly add more menu items here

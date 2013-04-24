@@ -41,10 +41,10 @@ public class HomeActivity extends SherlockListActivity {
 		setContentView(R.layout.home_network_list);
 		
 		setTitle(R.string.home_title);
-
+		overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 		// start up the parser
-		ParserTask.init(this);
+		//ParserTask.init(this);
 	}
 
 	
@@ -106,6 +106,13 @@ public class HomeActivity extends SherlockListActivity {
 		//this.onCreate(null);
 		ParserTask.refresh(this);
 	}
+	
+	@Override
+    public void onStop(){
+        super.onStop();
+        //TODO II think this helps with the animations..
+        //this.finish();
+    }
 
 	// make the menu work
 	@Override
@@ -123,8 +130,7 @@ public class HomeActivity extends SherlockListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_backup:
-			startActivityForResult(new Intent(this, BackupActivity.class),
-					HomeActivity.REFRESH);
+			startActivityForResult(new Intent(this, BackupActivity.class), HomeActivity.REFRESH);
 			return true;
 		case R.id.menu_refresh:
 			// refresh the networks (the easy way)
