@@ -166,7 +166,6 @@ public class HomeActivity extends SherlockListActivity {
 		View layout = inflater.inflate(R.layout.about, null);
 		
 		final PopupWindow pw = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		pw.setOutsideTouchable(true);
 		pw.setTouchable(true);
 		
 		Button ok = (Button) pw.getContentView().findViewById(R.id.about_close);
