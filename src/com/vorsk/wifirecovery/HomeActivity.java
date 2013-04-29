@@ -165,6 +165,7 @@ public class HomeActivity extends SherlockListActivity {
 		
 		final PopupWindow pw = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		pw.setTouchable(true);
+		pw.setFocusable(true);
 		
 		Button ok = (Button) pw.getContentView().findViewById(R.id.about_close);
 	    ok.setOnClickListener(new View.OnClickListener()
