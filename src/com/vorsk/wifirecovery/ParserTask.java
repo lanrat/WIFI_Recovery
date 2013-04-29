@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	private static final String TAG = "WIFI_Recovery Parser";
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	
 	private static String tempfileName = "wpa.conf";
 	private static Network[] networks;
@@ -196,6 +196,7 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 			if (DEBUG) Log.e(TAG,"Error reading file");
 			return;
 		}
+		this.deleteCachFile();
 		Collections.sort(networkList);
 		networks = networkList.toArray(new Network[networkList.size()]);
 	}
@@ -337,7 +338,12 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 			SSIDs[i] = networks[i].getSSID();
 		}
 		return SSIDs;
-		
+	}
+	
+	private boolean deleteCachFile()
+	{
+		String destination = this.myActivity.getCacheDir().getAbsolutePath()+"/"+tempfileName;
+		return (new RootTools()).deleteFileOrDirectory(destination, false);
 	}
 
 }

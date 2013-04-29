@@ -26,16 +26,14 @@ public class HomeActivity extends SherlockListActivity {
 	private static final String TAG = "WIFI_Recovery Activity";
 	private static final boolean DEBUG = true;
 
-	private static final int REFRESH = 5; // why not?
-	public static final int CMD_TIMEOUT = 2000; // timeout for cmd, 2 seconds
-	public static String wpa_file;
+	private static final int REFRESH_RESULT = 5;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (DEBUG)
-			Log.d(TAG, "onCreate");
+		if (DEBUG) Log.d(TAG, "onCreate");
+		
 		// use my custom list with buttons and empty list support
 		setContentView(R.layout.home_network_list);
 		
@@ -92,28 +90,16 @@ public class HomeActivity extends SherlockListActivity {
 		return alert;
 	}
 
-
-	// TODO REDO
 	private void refresh() {
-		//this.onCreate(null);
 		ParserTask.refresh(this);
 	}
-	
-	@Override
-    public void onStop(){
-        super.onStop();
-        //TODO II think this helps with the animations..
-        //this.finish();
-    }
 
 	// make the menu work
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		
 		//actionbar menu
 		getSupportMenuInflater().inflate(R.menu.home_action, menu);
-		
 		return true;
 	}
 
@@ -122,14 +108,12 @@ public class HomeActivity extends SherlockListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_backup:
-			startActivityForResult(new Intent(this, BackupActivity.class), HomeActivity.REFRESH);
+			startActivityForResult(new Intent(this, BackupActivity.class), HomeActivity.REFRESH_RESULT);
 			return true;
 		case R.id.menu_refresh:
-			// refresh the networks (the easy way)
 			this.refresh();
 			return true;
 		case R.id.menu_about:
-			// about box here
 			showAboutView(this);
 			return true;
 		case R.id.menu_settings:
@@ -141,11 +125,14 @@ public class HomeActivity extends SherlockListActivity {
 		}
 	}
 
+	/**
+	 * This is called when the backup task finishes and returns
+	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		// networks changed, refresh
-		if (requestCode == HomeActivity.REFRESH
+		// networks may be changed, refresh
+		if (requestCode == HomeActivity.REFRESH_RESULT
 				&& resultCode == SherlockListActivity.RESULT_OK) {
 			if (DEBUG)
 				Log.d(TAG, "got back the activity");
