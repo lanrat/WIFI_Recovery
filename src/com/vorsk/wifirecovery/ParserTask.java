@@ -1,36 +1,35 @@
 package com.vorsk.wifirecovery;
 
-//for array lists
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-//import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-//for root
 import com.stericson.RootTools.RootTools;
+import com.stericson.RootTools.execution.CommandCapture;
 import com.vorsk.wifirecovery.network.EAPNetwork;
 import com.vorsk.wifirecovery.network.Network;
 import com.vorsk.wifirecovery.network.OpenNetwork;
 import com.vorsk.wifirecovery.network.WEPNetwork;
 import com.vorsk.wifirecovery.network.WPANetwork;
-//for logging
-//import android.content.Context;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
-//import android.widget.Toast;
+
 import android.widget.Toast;
 
 public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	private static final String TAG = "WIFI_Recovery Parser";
 	private static final boolean DEBUG = true;
 	
-	private ArrayList<Network> networksListRM = new ArrayList<Network>(); //TODO remove this variable
-	private List<String> file; //TODO remove the need for this
+	private static String tempfileName = "wpa.conf";
 	private static Network[] networks;
 	private ListActivity myActivity;
 	ProgressDialog dialog;
@@ -45,10 +44,9 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	}
 	
 	//factory method for parsing the file
-	public static void init(ListActivity activity)
+	public static void loadNetworks(ListActivity activity)
 	{	
-		ParserTask p = new ParserTask(activity);
-		p.execute();
+		(new ParserTask(activity)).execute();
 	}
 	
 	
@@ -56,7 +54,7 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	public static void refresh(ListActivity activity)
 	{	
 		ParserTask.networks = null;
-		ParserTask.init(activity);
+		ParserTask.loadNetworks(activity);
 	}
 	
 	@Override
@@ -83,16 +81,13 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 				this.errorCode = ERROR_NO_FILE;
 				return null;
 			}
-			if (!this.readFile(file_name))
+			FileReader file = this.readFile(file_name);
+			if (file == null)
 			{
 				this.errorCode = ERROR_NO_FILE;
 				return null;
 			}
-			this.buildNetworks();
-			if (DEBUG) Log.d(TAG,"done building "+networksListRM.size()+" networks");
-			
-			Collections.sort(networksListRM);
-			networks = networksListRM.toArray(new Network[networksListRM.size()]);
+			this.buildNetworks(file);
 		}
 		
 		if (DEBUG) Log.d(TAG, "building adapter");
@@ -143,62 +138,73 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		return false;
 	}
 	
-	private void buildNetworks(){
+	private void buildNetworks(FileReader file){
 		//if we do not have a file
 		if (file == null){
 			return;
 		}
+		BufferedReader in = new BufferedReader(file);
 		String line;
-		Iterator<String> it = file.iterator();
-		HashMap<String, String> network;
+		HashMap<String, String> networkData;
+		ArrayList<Network> networkList = new ArrayList<Network>();
+		Network network;
 		
-		while (it.hasNext()){
-			//Log.d(TAG,"next!");
-			line = it.next();
-			if (line != null){
-				if (DEBUG) Log.d(TAG,"line: "+line);
-				
-				if (line.startsWith("network") && line.endsWith("{")){
-					if (DEBUG) Log.d(TAG,"found network block");
-					network = new HashMap<String, String>();
+		try {
+			while (in.ready())
+			{
+				line = in.readLine();
+				if (line != null){
+					if (DEBUG) Log.d(TAG,"line: "+line);
 					
-					//we found a network block
-					while(it.hasNext() && !line.contains("}")){
-						line = it.next();
-						if (line != null){
-							if (line.contains("}")){
-								if (DEBUG) Log.d(TAG,"end of data!");
-								break;
+					if (line.startsWith("network") && line.endsWith("{")){
+						if (DEBUG) Log.d(TAG,"found network block");
+						networkData = new HashMap<String, String>();
+						
+						//we found a network block
+						while(in.ready() && !line.contains("}")){
+							line = in.readLine();
+							if (line != null){
+								if (line.contains("}")){
+									if (DEBUG) Log.d(TAG,"end of data!");
+									break;
+								}
+								if (DEBUG) Log.d(TAG,"adding data: "+ line);
+								
+								int sep = line.indexOf("=");
+								if (DEBUG) Log.d(TAG,"Sep: "+sep);
+								if (sep != -1)
+								{
+									if (DEBUG) Log.d(TAG,"A: "+line.substring(0, sep));
+									if (DEBUG) Log.d(TAG,"B: "+line.substring(sep+1, line.length()));
+									networkData.put(line.substring(0, sep).trim(), line.substring(sep+1, line.length()));
+								}
 							}
-							if (DEBUG) Log.d(TAG,"adding data: "+ line);
-							
-							int sep = line.indexOf("=");
-							if (DEBUG) Log.d(TAG,"Sep: "+sep);
-							if (sep != -1)
-							{
-								if (DEBUG) Log.d(TAG,"A: "+line.substring(0, sep));
-								if (DEBUG) Log.d(TAG,"B: "+line.substring(sep+1, line.length()));
-								network.put(line.substring(0, sep).trim(), line.substring(sep+1, line.length()));
-							}
-							//String[] data = line.split("="); //breaks if the ssid has an = in is
-							//network.put(data[0].trim(), data[1].trim());
 						}
+						if (DEBUG) Log.d(TAG,"adding network");
+						//network HashMap is complete, add it to the networks ArrayList
+						network = this.addNetwork(networkData);
+						if (network != null)
+						{
+							networkList.add(network);
+						}
+						if (DEBUG) Log.d(TAG,"network added");
 					}
-					if (DEBUG) Log.d(TAG,"adding network");
-					//network HashMap is complete, add it to the networks ArrayList
-					this.addNetwork(network);
-					if (DEBUG) Log.d(TAG,"network added");
 				}
+				
 			}
-			
+		} catch (IOException e) {
+			if (DEBUG) Log.e(TAG,"Error reading file");
+			return;
 		}
+		Collections.sort(networkList);
+		networks = networkList.toArray(new Network[networkList.size()]);
 	}
 	
-	private void addNetwork(HashMap<String, String> networkData) {
+	private Network addNetwork(HashMap<String, String> networkData) {
 		//first check to make sure the network contains required fields
 		if (!networkData.containsKey("ssid")){
 			if (DEBUG) Log.d(TAG,"malformed network entry, missing ssid");
-			return;
+			return null;
 		}
 		
 		//fixing bug for HTC sense phones
@@ -209,7 +215,7 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		
 		if (!networkData.containsKey("key_mgmt")){
 			if (DEBUG) Log.d(TAG,"malformed network entry, missing key_mgmt");
-			return;
+			return null;
 		}
 		
 		//determine the network type and build it
@@ -244,7 +250,7 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 			byte eap = EAPNetwork.findEAP(networkData.get("eap"));
 			if (eap == EAPNetwork.UNKNOWN){
 				if (DEBUG) Log.d(TAG,"unknown eap network type");
-				return;
+				return null;
 			}
 			network = new EAPNetwork(ssid, eap);
 			if (networkData.containsKey("phase2")){
@@ -265,17 +271,15 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 			
 		}else {
 			if (DEBUG) Log.d(TAG,"unknown network type");
-			return;
+			return null;
 		}
-		//Log.d(TAG,"Ready to add network");
+		if (DEBUG) Log.d(TAG,"Ready to add network");
 		if (network != null){
-			networksListRM.add(network);
+			return network;
 		}else{
-			//Log.e(TAG, "Unknown Network Type");
+			if (DEBUG) Log.e(TAG, "Unknown Network Type");
 		}
-		//Log.d(TAG,"add complete");
-		
-		
+		return null;
 	}
 	
 	
@@ -296,24 +300,29 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		return null;
 	}
 	
-	
-	//TODO REDO with temp files
-	//THIS causes errors reading the file on startup sometimes
-	private boolean readFile(String file_name){
-		//check to make sure the file exists
-		//int permissions = RootTools.getFilePermissions(file_name);
-		//Log.d(TAG,"Permissions: "+permissions);
-		
-		//read the contends of the file into a variable
+	private FileReader readFile(String file_name){
+		//copy file to application temp dir
+		String destination = this.myActivity.getCacheDir().getAbsolutePath()+"/"+tempfileName;
+		if (!RootTools.copyFile(file_name, destination, false, false))
+		{
+			if (DEBUG) Log.d(TAG,"cant move file: "+ file_name+" to "+destination );
+			return null;
+		}
+		//update the file permissions
+		CommandCapture command = new CommandCapture(0,"chmod 666 "+destination);
 		try {
-			this.file = RootTools.sendShell("cat " + file_name,HomeActivity.CMD_TIMEOUT);
-			//this.file = RootTools.sendShell("cat " + file_name);
-			return true;
-		} catch (Exception e) {
-			if (DEBUG) Log.d(TAG,"cant access file: "+ file_name);
-			return false;
-			//e.printStackTrace();
-			//Toast.makeText(getApplicationContext(), "Hi there", Toast.LENGTH_SHORT).show();
+			RootTools.getShell(true).add(command).waitForFinish();
+		} catch (Exception e1) {
+			if (DEBUG) Log.d(TAG,"unable to update permissions of: "+destination );
+			return null;
+		}
+		
+		//open the file
+		try {
+			return new FileReader(destination);
+		} catch (FileNotFoundException e) {
+			if (DEBUG) Log.d(TAG,"Unable to return file strem for temp file: "+destination);
+			return null;
 		}
 	}
 

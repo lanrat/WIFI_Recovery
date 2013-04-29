@@ -159,7 +159,11 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
 		case android.R.id.home:
 			//TODO temp
 			//quitAndRefresh();
-			finish();
+			  Intent intent = new Intent(this, HomeActivity.class);
+			  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			  startActivity(intent);
+			  //break; 
+			//finish();
 			//should save a var and call finish();
 			return true;
 		//possibly add more menu items here

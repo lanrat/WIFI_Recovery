@@ -27,8 +27,7 @@ public class HomeActivity extends SherlockListActivity {
 	private static final boolean DEBUG = true;
 
 	private static final int REFRESH = 5; // why not?
-	public static final int CMD_TIMEOUT = 2000; // timeout for cmd commands, 2
-												// seconds
+	public static final int CMD_TIMEOUT = 2000; // timeout for cmd, 2 seconds
 	public static String wpa_file;
 
 	/** Called when the activity is first created. */
@@ -44,17 +43,10 @@ public class HomeActivity extends SherlockListActivity {
 		overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 		// start up the parser
-		//ParserTask.init(this);
+		ParserTask.loadNetworks(this);
 	}
 
 	
-
-	// this is deprecated, but I'm using it anyways
-	/*
-	 * @Override public Object onRetainNonConfigurationInstance(){ return
-	 * this.networks; }
-	 */
-
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if (DEBUG)
