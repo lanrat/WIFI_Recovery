@@ -79,7 +79,6 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
 		case android.R.id.home:
 			finishAndRefresh();
 			return true;
-		//possibly add more menu items here
 		default:
 			return false;
 		}

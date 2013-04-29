@@ -20,29 +20,17 @@
         \nCreated by Ian Foster
         \n<a>http://lanrat.com</a>       
     </string>
-    <string name="backup_text">
-		Click to backup your WIFI Configuration to your SD card
-		\n(copies wpa_supplicant.conf to the root of your SD card)
-    </string>
-    <string name="restore_text">
-		\nClick to Restore your backup from your SD card
-		\nWarning: only restore unmodified backups made by this phone!
-    </string>
-    <string name="reset_text">
-		\nIn case a restore failed, reset your wireless configuration.
-		\n(Resets wpa_supplicant.conf to its default values)
-    </string>
     <string name="back_button">Back</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="reset_title">Confirm</string>
-    <string name="reset_message">Are you sure you want to Reset?</string>
-    <string name="reset_button">Reset Wifi Configuration</string>
+    <string name="reset_message">Are you sure you want to reset your WIFI network configuation to it\'s default settings?</string>
+    <string name="reset_button">Reset WIFI Configuration</string>
     <string name="reset_error">Error Resetting Wifi</string>
     <string name="find_error">Error Finding WiFi configuration</string>
-    <string name="backup_button">Backup Now!</string>
+    <string name="backup_button">Backup WIFI to Storage</string>
     <string name="sd_error">External Storage Error</string>
-    <string name="restore_button">Restore From Backup!</string>
+    <string name="restore_button">Restore WIFI from Storage</string>
     <string name="backup_file_name">wifi_backup.conf</string>
     <string name="parse_error">Malformed or Empty backup file!</string>
     <string name="no_networks">No Networks Found!</string>

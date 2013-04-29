@@ -24,7 +24,7 @@ import android.view.ViewGroup.LayoutParams;
 //extend ListActivity in place of activity
 public class HomeActivity extends SherlockListActivity {
 	private static final String TAG = "WIFI_Recovery Activity";
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	private static final int REFRESH_RESULT = 5;
 

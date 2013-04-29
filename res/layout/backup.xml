@@ -8,14 +8,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/backup_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip"
-            android:text="@string/backup_text" />
 
         <Button
             android:id="@+id/backup_button"
@@ -24,14 +18,10 @@
             android:layout_gravity="center"
             android:layout_marginLeft="30dip"
             android:layout_marginRight="30dip"
+            android:layout_marginTop="10dip"
+            android:drawableLeft="@drawable/ic_icon_backup"
             android:text="@string/backup_button" />
 
-        <TextView
-            android:id="@+id/restore_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip"
-            android:text="@string/restore_text" />
 
         <Button
             android:id="@+id/restore_button"
@@ -40,14 +30,9 @@
             android:layout_gravity="center"
             android:layout_marginLeft="30dip"
             android:layout_marginRight="30dip"
+            android:layout_marginTop="10dip"
+            android:drawableLeft="@drawable/ic_icon_restore"
             android:text="@string/restore_button" />
-
-        <TextView
-            android:id="@+id/reset_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip"
-            android:text="@string/reset_text" />
 
         <Button
             android:id="@+id/reset_button"
@@ -56,6 +41,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="30dip"
             android:layout_marginRight="30dip"
+            android:layout_marginTop="10dip"
+            android:drawableLeft="@drawable/ic_icon_reset"
             android:text="@string/reset_button" />
     </LinearLayout>
 
