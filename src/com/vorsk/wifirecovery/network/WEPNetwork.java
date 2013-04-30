@@ -34,7 +34,7 @@ public class WEPNetwork extends Network{
 	}
 	
 	public int getIcon(){
-		return R.drawable.wep;
+		return R.drawable.network_wep;
 	}
 	
 }

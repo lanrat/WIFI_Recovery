@@ -31,7 +31,7 @@ public class WPANetwork extends Network{
 	}
 	
 	public int getIcon(){
-		return R.drawable.wpa;
+		return R.drawable.network_wpa;
 	}
 	
 }

@@ -39,7 +39,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="10dp"
         android:contentDescription="@string/icon_desc"
-        android:src="@drawable/open" >
+        android:src="@drawable/network_open" >
     </ImageView>
 
 </RelativeLayout>

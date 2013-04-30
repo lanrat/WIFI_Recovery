@@ -33,7 +33,7 @@ public class EAPNetwork extends Network{
 		"MSCHAPV2",
 		"GTC"};
 
-	public static final int icon = R.drawable.eap;
+	public static final int icon = R.drawable.network_eap;
 	
 	private byte eap_method;
 	private byte phase2_auth = EAPNetwork.NONE;

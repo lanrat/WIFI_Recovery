@@ -17,7 +17,7 @@ public class OpenNetwork extends Network{
 	}
 	
 	public int getIcon(){
-		return R.drawable.open;
+		return R.drawable.network_open;
 	}
 	
 }
