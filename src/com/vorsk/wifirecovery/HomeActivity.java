@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.drawable.BitmapDrawable;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -38,10 +39,16 @@ public class HomeActivity extends SherlockListActivity {
 		setContentView(R.layout.home_network_list);
 		
 		setTitle(R.string.home_title);
-		overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-
+		
 		// start up the parser
-		ParserTask.loadNetworks(this);
+		//ParserTask.loadNetworks(this);
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		overridePendingTransition(R.anim.slide_in, R.anim.slide_in);
 	}
 
 	
@@ -145,6 +152,7 @@ public class HomeActivity extends SherlockListActivity {
 	}
 	
 	
+	@SuppressWarnings("deprecation") //this is for BitmapDrawable()
 	public static void showAboutView(Activity act)
 	{
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -153,6 +161,8 @@ public class HomeActivity extends SherlockListActivity {
 		final PopupWindow pw = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		pw.setTouchable(true);
 		pw.setFocusable(true);
+		//this allows the back button and outside touched to clode the about box
+		pw.setBackgroundDrawable(new BitmapDrawable());
 		
 		Button ok = (Button) pw.getContentView().findViewById(R.id.about_close);
 	    ok.setOnClickListener(new View.OnClickListener()

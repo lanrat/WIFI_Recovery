@@ -118,6 +118,7 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
 		resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     	setResult(SherlockActivity.RESULT_OK, resultIntent);
     	finish();
+		//overridePendingTransition(R.anim.slide_in, R.anim.slide_in);
     }
 	
 }
