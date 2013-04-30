@@ -33,8 +33,6 @@ public class EAPNetwork extends Network{
 		"MSCHAPV2",
 		"GTC"};
 
-	public static final int icon = R.drawable.network_eap;
-	
 	private byte eap_method;
 	private byte phase2_auth = EAPNetwork.NONE;
 	private String identity;
@@ -142,7 +140,7 @@ public class EAPNetwork extends Network{
 	}
 	
 	public int getIcon(){
-		return R.drawable.eap;
+		return R.drawable.network_eap;
 	}
 
 }
