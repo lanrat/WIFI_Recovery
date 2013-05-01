@@ -2,6 +2,13 @@ package com.vorsk.wifirecovery.network;
 
 import java.util.Locale;
 
+import android.graphics.Bitmap;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
 
 public abstract class Network implements Comparable<Network>{
 	
@@ -70,5 +77,73 @@ public abstract class Network implements Comparable<Network>{
 		
     	return details.trim();
 	}
+    
+    private String getQRString()
+    {
+    	//EAP not supported
+    	if (this.security_type == EAP)
+    	{
+    		return null;
+    	}
+    	String ssid = this.getSSID();
+    	String security = "nopass";
+    	String pass = "";
+    	if (this.security_type == WEP)
+    	{
+    		security = "WEP";
+    		pass = ((WEPNetwork)this).getWEP_Key();
+    	}else if (this.security_type == WPA)
+    	{
+    		security = "WPA";
+    		pass = ((WPANetwork)this).getWPA_Key();
+    	}
+    	
+    	String result = String.format("WIFI:S:%s;T:%s;P:%s;;",QREscape(ssid),QREscape(security),QREscape(pass));
+    	return result;
+    }
+    
+    private String QREscape(String in)
+    {
+    	in = in.replace("\\", "\\\\");
+    	in = in.replace(";", "\\;");
+    	in = in.replace(",", "\\,");
+    	in = in.replace(":", "\\:");
+    	return in;
+    }
+    
+    public Bitmap getQRCode(int size)
+    {
+	    final int WHITE = 0xFFFFFFFF;
+	    final int BLACK = 0xFF000000;
+	    
+    	String qrtext = getQRString();
+    	if (qrtext == null)
+    	{
+    		return null;
+    	}
+    	
+    	BitMatrix result = null;
+		QRCodeWriter a = new QRCodeWriter();
+		try {
+			result = a.encode(qrtext, BarcodeFormat.QR_CODE, size, size);
+		} catch (WriterException e) {
+			return null;
+		}
+		
+		 int width = result.getWidth();
+		 int height = result.getHeight();
+		 int[] pixels = new int[width * height];
+		 // All are 0, or black, by default
+		 for (int y = 0; y < height; y++) {
+			 int offset = y * width;
+		     for (int x = 0; x < width; x++) {
+		    	 pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+		     }
+		 }
+		    
+	    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+	    bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+		return bitmap;
+    }
 	
 }

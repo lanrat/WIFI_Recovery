@@ -9,11 +9,14 @@ import android.provider.Settings;
 import android.util.Log;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -58,21 +61,46 @@ public class HomeActivity extends SherlockListActivity {
 		if (DEBUG)
 			Log.d(TAG, "clicked!");
 		Network network = (Network) getListAdapter().getItem(position);
-		if (DEBUG)
-			Log.d(TAG, "got network");
 
-		infoPopUp(network).show();
+        //show the network info    
+        infoPopUp(network).show();
+		
 	}
 
-	public AlertDialog infoPopUp(final Network network) {
+	public Dialog infoPopUp(Network network) {
+		//dialog setup
+		Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.network_info_dialog);
+        dialog.setTitle(R.string.network_info_title);
+        dialog.setCancelable(true);
+        //set up text
+        TextView text = (TextView) dialog.findViewById(R.id.network_info_text);
+        text.setText(network.getDetails());
+		
+		Bitmap qrImage = network.getQRCode(512);
+		
+		if (qrImage != null)
+		{
+	        //set up image view
+	        ImageView img = (ImageView) dialog.findViewById(R.id.qr_image);
+	        img.setImageBitmap(qrImage);
+
+		}
+
+        //set up button
+        Button button = (Button) dialog.findViewById(R.id.dismiss_button);
+		
+		
+		return dialog;
+		
+		/*
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(network.getDetails())
 				.setCancelable(true)
 				.setNegativeButton(R.string.button_dismiss,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-								dialog.dismiss(); // or cancel?, who knows, it
-													// works.
+								dialog.cancel();
 							}
 						})
 				.setPositiveButton(R.string.button_share,
@@ -95,7 +123,7 @@ public class HomeActivity extends SherlockListActivity {
 
 		AlertDialog alert = builder.create();
 
-		return alert;
+		return alert;*/
 	}
 
 	private void refresh() {

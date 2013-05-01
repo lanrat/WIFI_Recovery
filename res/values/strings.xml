@@ -37,7 +37,8 @@
     <string name="no_backup_file">Error: Could not find wpa_supplicant.conf on SD card root!</string>
 	<string name="icon_desc">Lock Icon</string>
 	<string name="about_version">Version: </string>
-	<string name="loading">Loading Networks...</string>
+	<string name="loading">Loading Networks&#8230;</string>
 	<string name="home_title">Saved Networks</string>
+	<string name="network_info_title">Network Information</string>
 	<string name="backup_title">Backup and Restore</string>
 </resources>

@@ -33,6 +33,7 @@ public class NetworkArrayAdapter extends ArrayAdapter<Network>{
 		
 		textView.setText(values[position].getSSID()); //set the text
 		imageView.setImageResource(values[position].getIcon()); //set the image
+		
 		securityText.setText(values[position].getSecurityName());
 
 		return rowView;
