@@ -45,16 +45,6 @@ public class HomeActivity extends SherlockListActivity {
 		ParserTask.loadNetworks(this);
 	}
 	
-	
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		if (DEBUG) Log.v(TAG,"onResume");
-		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-	}
-
-	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if (DEBUG)

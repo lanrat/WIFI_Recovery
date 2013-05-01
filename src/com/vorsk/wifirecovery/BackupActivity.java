@@ -34,13 +34,7 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
 		findViewById(R.id.reset_button).setOnClickListener(this);
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	}
-	
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		if (DEBUG) Log.v(TAG,"onResume");
+		
 		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 	}
 	
@@ -125,7 +119,7 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
 		resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION);
     	setResult(SherlockActivity.RESULT_OK, resultIntent);
     	finish();
-		//overridePendingTransition(R.anim.slide_in, R.anim.slide_in);
+    	overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 	
 }
