@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -34,6 +35,7 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	private ListActivity myActivity;
 	ProgressDialog dialog;
 	private int errorCode;
+	private int screenOrientation;
 	private static final int ERROR_NO_ROOT = 1;
 	private static final int ERROR_NO_FILE = 2;
 	
@@ -59,6 +61,8 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	
 	@Override
 	protected void onPreExecute() {
+		this.screenOrientation = this.myActivity.getRequestedOrientation();
+		this.myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 		dialog = new ProgressDialog(this.myActivity);
 		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		dialog.setMessage(this.myActivity.getString(R.string.loading));
@@ -121,6 +125,7 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		//update the list of networks
 		if (DEBUG) Log.d(TAG, "setting adapter");
 		this.myActivity.setListAdapter(result);
+		this.myActivity.setRequestedOrientation(this.screenOrientation);
 		
 	}
 	

@@ -45,6 +45,7 @@ public class HomeActivity extends SherlockListActivity {
 		ParserTask.loadNetworks(this);
 	}
 	
+	
 	@Override
 	protected void onResume()
 	{
