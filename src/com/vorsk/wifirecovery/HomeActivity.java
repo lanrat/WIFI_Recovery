@@ -25,7 +25,7 @@ import android.view.ViewGroup.LayoutParams;
 //extend ListActivity in place of activity
 public class HomeActivity extends SherlockListActivity {
 	private static final String TAG = "WIFI_Recovery Activity";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	private static final int REFRESH_RESULT = 5;
 
@@ -48,7 +48,8 @@ public class HomeActivity extends SherlockListActivity {
 	protected void onResume()
 	{
 		super.onResume();
-		overridePendingTransition(R.anim.slide_in, R.anim.slide_in);
+		if (DEBUG) Log.v(TAG,"onResume");
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	}
 
 	

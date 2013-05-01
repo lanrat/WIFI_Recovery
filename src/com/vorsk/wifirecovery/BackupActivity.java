@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,9 +34,14 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
 		findViewById(R.id.reset_button).setOnClickListener(this);
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if (DEBUG) Log.v(TAG,"onResume");
+		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 	}
 	
 	//hook the button up!
@@ -110,12 +116,13 @@ public class BackupActivity extends SherlockActivity implements OnClickListener 
     }
 
     private void finishAndRefresh(){
+    	if (DEBUG) Log.v(TAG, "finish and refresh");
     	Intent resultIntent = new Intent();
     	if (refresh)
     	{
     		resultIntent.putExtra("refresh", true);
     	}
-		resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION);
     	setResult(SherlockActivity.RESULT_OK, resultIntent);
     	finish();
 		//overridePendingTransition(R.anim.slide_in, R.anim.slide_in);
