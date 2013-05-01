@@ -41,7 +41,7 @@ public class HomeActivity extends SherlockListActivity {
 		setTitle(R.string.home_title);
 		
 		// start up the parser
-		//ParserTask.loadNetworks(this);
+		ParserTask.loadNetworks(this);
 	}
 	
 	@Override
