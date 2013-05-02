@@ -8,42 +8,29 @@
     android:padding="10dp" >
  
       <TextView
-          android:layout_width="wrap_content"
+          android:layout_width="fill_parent"
           android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal"
           android:gravity="center_horizontal"
           android:text="@string/menu_about"
           android:textSize="@dimen/abs__action_bar_title_text_size"
           android:textStyle="bold" />
             
-      <ScrollView
-         android:layout_width="fill_parent"
-         android:layout_height="fill_parent" >
-
-         <LinearLayout
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:orientation="vertical" >
-
-		      <TextView
-		          android:id="@+id/about_version"
-		          android:layout_width="wrap_content"
-		          android:layout_height="wrap_content"
-		          android:layout_gravity="center_horizontal"
-		          android:gravity="center_horizontal"
-		          android:paddingBottom="10dp"
-		          android:text="@string/about_version" />
-		      
-		       <TextView
-		         android:id="@+id/about_content"
-		         android:layout_width="fill_parent"
-		         android:layout_height="wrap_content"
-		         android:autoLink="web"
-		         android:gravity="center_horizontal"
-		         android:text="@string/about_text" />
-	       </LinearLayout>
-	       
-       </ScrollView>
+      <TextView
+          android:id="@+id/about_version"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:gravity="center_horizontal"
+          android:paddingBottom="10dp"
+          android:text="@string/about_version" />
+      
+       <TextView
+         android:id="@+id/about_content"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:autoLink="web"
+         android:gravity="center_horizontal"
+         android:text="@string/about_text" />
        
        <Button
            android:id="@+id/about_close"

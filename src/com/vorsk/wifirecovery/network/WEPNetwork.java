@@ -20,11 +20,13 @@ public class WEPNetwork extends Network{
 	}
 	public void setWEP_Key(String key) {
 		//should check to make sure there are only the chars 0-9 and A-F
-		if ((key.length() == 10) ||
-				(key.length() == 26) ||
-				(key.length() == 58)){
-			this.key = key;
+		//check removed because android allows invalid keys
+		//check if key is enclosed in quotes, remove if so.
+		if (key.charAt(0) == '"' && key.charAt(key.length()-1) == '"')
+		{
+			key = key.substring(1,key.length()-1);
 		}
+		this.key = key;
 	}
 
 	@Override

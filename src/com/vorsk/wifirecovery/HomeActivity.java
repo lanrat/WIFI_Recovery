@@ -170,7 +170,7 @@ public class HomeActivity extends SherlockListActivity {
 		final PopupWindow pw = new PopupWindow(layout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		pw.setTouchable(true);
 		pw.setFocusable(true);
-		//this allows the back button and outside touched to clode the about box
+		//this allows the back button and outside touched to close the about box
 		pw.setBackgroundDrawable(new BitmapDrawable());
 		
 		Button ok = (Button) pw.getContentView().findViewById(R.id.about_close);
