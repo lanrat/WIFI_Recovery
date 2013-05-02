@@ -58,7 +58,7 @@ public class HomeActivity extends SherlockListActivity {
 
 	public Dialog infoPopUp(Network network) {
 		//dialog setup
-		Dialog dialog = new Dialog(this);
+		final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.network_info_dialog);
         dialog.setTitle(R.string.network_info_title);
         dialog.setCancelable(true);
@@ -78,6 +78,12 @@ public class HomeActivity extends SherlockListActivity {
 
         //set up button
         Button button = (Button) dialog.findViewById(R.id.dismiss_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	dialog.dismiss();
+            }
+        });
 		
 		
 		return dialog;
