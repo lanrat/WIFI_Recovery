@@ -23,14 +23,11 @@
 			<ImageView
 			    android:id="@+id/qr_image"
 			    android:layout_width="200dp"
-			    android:layout_height="200dp"
+			    android:layout_height="150dp"
 			    android:layout_gravity="center_horizontal"
 			    android:adjustViewBounds="true"
 			    android:contentDescription="@string/qr_code"
 			    android:scaleType="centerInside" />
-		 
-
-			
 		</LinearLayout>
 	
  

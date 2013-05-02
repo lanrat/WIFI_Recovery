@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WiFi Key Recovery</string>
-    <string name="root_error">This application requires root access but root could not be obtained.</string>
+    <string name="app_name">WIFI Key Recovery</string>
+    <string name="root_error">This application requires root access, but root could not be obtained.</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_backup">Backup/Restore</string>
     <string name="menu_about">About</string>
-    <string name="menu_wifi_settings">WiFi Settings</string>
+    <string name="menu_wifi_settings">WIFI Settings</string>
     <string name="button_share">Send</string>
     <string name="button_dismiss">Dismiss</string>
     <string name="backup_error">There was a problem backing up</string>
     <string name="restore_error">There was a problem restoring</string>
     <string name="about_text">
-		This application displays the wireless networks and keys which your phone stores
-		in plain text in a file often called wpa_supplicant.conf. This application provides you with 
-		the ability to view and share your wireless configurations. Additionally you can backup and restore
-        your wpa_supplicant.conf file to/from your SD card. The wpa_supplicant.conf file should not be
-        modified by hand. If for some reason your wireless configuration gets corrupted, use the Reset function.
+		This application displays the wireless networks and keys which are stored in wpa_supplicant.conf.
+		You can backup and restore this file to your device\'s storage.
+		Any network can be shared, and if your device supports it you can scan the QR code to import the profile.
+        If your wireless configuration gets corrupted, use the Reset function.
         \n
         \nCreated by Ian Foster
         \n<a>http://lanrat.com</a>       
@@ -27,14 +26,14 @@
     <string name="reset_message">Are you sure you want to reset your WIFI network configuation to it\'s default settings?</string>
     <string name="reset_button">Reset WIFI Configuration</string>
     <string name="reset_error">Error Resetting Wifi</string>
-    <string name="find_error">Error Finding WiFi configuration</string>
+    <string name="find_error">Error Finding WIFI configuration</string>
     <string name="backup_button">Backup WIFI to Storage</string>
     <string name="sd_error">External Storage Error</string>
     <string name="restore_button">Restore WIFI from Storage</string>
     <string name="backup_file_name">wifi_backup.conf</string>
-    <string name="parse_error">Malformed or Empty backup file!</string>
+    <string name="parse_error">Malformed or empty backup file!</string>
     <string name="no_networks">No Networks Found!</string>
-    <string name="no_backup_file">Error: Could not find wpa_supplicant.conf on SD card root!</string>
+    <string name="no_backup_file">Error: Could not find wifi_backup.conf on SD card root!</string>
 	<string name="icon_desc">Lock Icon</string>
 	<string name="about_version">Version: </string>
 	<string name="loading">Loading Networks&#8230;</string>

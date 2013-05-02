@@ -182,7 +182,6 @@ public class HomeActivity extends SherlockListActivity {
 	        {   
 	            pw.dismiss(); 
 	        }
-
 	    });
 		
 		pw.showAtLocation(act.findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
