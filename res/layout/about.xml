@@ -7,36 +7,44 @@
     android:orientation="vertical"
     android:padding="10dp" >
  
-      <TextView
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:gravity="center_horizontal"
-          android:text="@string/menu_about"
-          android:textSize="@dimen/abs__action_bar_title_text_size"
-          android:textStyle="bold" />
-            
-      <TextView
-          android:id="@+id/about_version"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal"
-          android:gravity="center_horizontal"
-          android:paddingBottom="10dp"
-          android:text="@string/about_version" />
-      
-       <TextView
-         android:id="@+id/about_content"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:autoLink="web"
-         android:gravity="center_horizontal"
-         android:text="@string/about_text" />
+	<TextView
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_horizontal"
+	    android:text="@string/menu_about"
+	    android:textSize="@dimen/abs__action_bar_title_text_size"
+	    android:textStyle="bold" />
+     
+
+	<TextView
+	    android:id="@+id/about_version"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:gravity="center_horizontal"
+	    android:paddingBottom="10dp"
+	    android:text="@string/about_version" />
+	<ScrollView
+		android:layout_width="wrap_content"
+		android:layout_height="0dp"
+		android:layout_weight="1">
+	     
+		<TextView
+		  android:id="@+id/about_content"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:scrollHorizontally="true"
+		  android:autoLink="web"
+		  android:gravity="center_horizontal"
+		  android:text="@string/about_text" />
+	</ScrollView>
+
        
-       <Button
-           android:id="@+id/about_close"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:gravity="center_horizontal"
-           android:text="@string/button_dismiss" />
+	<Button
+	    android:id="@+id/about_close"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_horizontal"
+	    android:text="@string/button_dismiss" />
 
 </LinearLayout>
