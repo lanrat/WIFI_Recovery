@@ -68,12 +68,13 @@ public class HomeActivity extends SherlockListActivity {
 		
 		Bitmap qrImage = network.getQRCode(512);
 		
+		ImageView img = (ImageView) dialog.findViewById(R.id.qr_image);
 		if (qrImage != null)
 		{
 	        //set up image view
-	        ImageView img = (ImageView) dialog.findViewById(R.id.qr_image);
 	        img.setImageBitmap(qrImage);
-
+		}else{
+			img.setVisibility(View.GONE);
 		}
 
         //set up buttons
