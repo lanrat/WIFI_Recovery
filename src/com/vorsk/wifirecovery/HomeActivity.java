@@ -56,7 +56,7 @@ public class HomeActivity extends SherlockListActivity {
 		
 	}
 
-	public Dialog infoPopUp(Network network) {
+	public Dialog infoPopUp(final Network network) {
 		//dialog setup
 		final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.network_info_dialog);
@@ -76,49 +76,34 @@ public class HomeActivity extends SherlockListActivity {
 
 		}
 
-        //set up button
-        Button button = (Button) dialog.findViewById(R.id.dismiss_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        //set up buttons
+        Button dismiss_button = (Button) dialog.findViewById(R.id.dismiss_button);
+        dismiss_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             	dialog.dismiss();
             }
         });
+        Button share_button = (Button) dialog.findViewById(R.id.share_button);
+        share_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	Intent share = new Intent(
+						android.content.Intent.ACTION_SEND);
+				share.setType("text/plain");
+				share.putExtra(
+						android.content.Intent.EXTRA_SUBJECT,
+						"Wireless Settings: "+network.getSSID());
+				share.putExtra(
+						android.content.Intent.EXTRA_TEXT,
+						network.getDetails());
+				startActivity(share);
+
+            }
+        });
 		
 		
 		return dialog;
-		
-		/*
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(network.getDetails())
-				.setCancelable(true)
-				.setNegativeButton(R.string.button_dismiss,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						})
-				.setPositiveButton(R.string.button_share,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// does this share the data?
-								Intent share = new Intent(
-										android.content.Intent.ACTION_SEND);
-								share.setType("text/plain");
-								share.putExtra(
-										android.content.Intent.EXTRA_SUBJECT,
-										"Wireless Settings");
-								share.putExtra(
-										android.content.Intent.EXTRA_TEXT,
-										network.getDetails());
-								startActivity(share);
-
-							}
-						});
-
-		AlertDialog alert = builder.create();
-
-		return alert;*/
 	}
 
 	private void refresh() {
