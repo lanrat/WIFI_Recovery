@@ -188,7 +188,11 @@ public class BackupTask extends AsyncTask<Integer, Void, Void>{
 	@Override
 	protected void onPostExecute(Void result) {
 		//close loading message
-		dialog.dismiss();
+		try {
+			dialog.dismiss();
+		} catch (Exception e) {
+			//do nothing
+		}
 		
 		if (result == null){
 			if (this.errorCode == ERROR_TOAST){
