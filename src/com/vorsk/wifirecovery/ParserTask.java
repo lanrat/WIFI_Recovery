@@ -61,8 +61,8 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 	
 	@Override
 	protected void onPreExecute() {
-		this.screenOrientation = this.myActivity.getRequestedOrientation();
-		this.myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+		//this.screenOrientation = this.myActivity.getRequestedOrientation();
+		//this.myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 		dialog = new ProgressDialog(this.myActivity);
 		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		dialog.setMessage(this.myActivity.getString(R.string.loading));
@@ -125,7 +125,7 @@ public class ParserTask extends AsyncTask<Void, Void, NetworkArrayAdapter>{
 		//update the list of networks
 		if (DEBUG) Log.d(TAG, "setting adapter");
 		this.myActivity.setListAdapter(result);
-		this.myActivity.setRequestedOrientation(this.screenOrientation);
+		//this.myActivity.setRequestedOrientation(this.screenOrientation);
 		
 	}
 	

@@ -41,4 +41,5 @@
 	<string name="home_title">Saved Networks</string>
 	<string name="network_info_title">Network Information</string>
 	<string name="backup_title">Backup and Restore</string>
+	<string name="qr_code">QR Code</string>
 </resources>
