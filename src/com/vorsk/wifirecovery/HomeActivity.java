@@ -3,6 +3,7 @@ package com.vorsk.wifirecovery;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.tjeannin.apprate.AppRate;
 import com.vorsk.wifirecovery.network.Network;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -43,6 +44,11 @@ public class HomeActivity extends SherlockListActivity {
 		
 		// start up the parser
 		ParserTask.loadNetworks(this);
+		
+		new AppRate(this)
+	    .setMinDaysUntilPrompt(7)
+	    .setMinLaunchesUntilPrompt(15)
+	    .init();
 	}
 	
 	@Override
