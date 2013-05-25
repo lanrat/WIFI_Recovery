@@ -46,8 +46,8 @@ public class HomeActivity extends SherlockListActivity {
 		ParserTask.loadNetworks(this);
 		
 		new AppRate(this)
-	    .setMinDaysUntilPrompt(7)
-	    .setMinLaunchesUntilPrompt(15)
+	    .setMinDaysUntilPrompt(3)
+	    .setMinLaunchesUntilPrompt(10)
 	    .init();
 	}
 	
